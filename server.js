@@ -5,7 +5,11 @@ const fsPromises = require("fs").promises; // importing filesystem promises
 const fileOps = async () => {
     try{
         const data = await fsPromises.readFile(path.join(__dirname,'files','start.txt'),'utf8')
+
         console.log(data);
+
+        await fsPromises.unlink(path.join(__dirname, "files", "start.txt"),);
+        
     }catch(err){
         console.error(err);
     }
