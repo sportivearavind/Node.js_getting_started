@@ -1,19 +1,58 @@
-console.log("Hello node");
-// console.log(global);
-const os = require("os"); // importing os
-console.log(os.type);
-console.log(os.version);
-console.log(os.homedir);
-
-console.log(__dirname); // give the directory name
-console.log(__filename); // give the filename
-
+const fs = require("fs");
 const path = require("path");
-console.log(path.dirname(__filename)); // find the directory name using file
-console.log(path.basename(__filename));
-console.log(path.extname(__filename));
+const fsPromises = require("fs").promises;
 
-console.log(path.parse(__filename)); // frequently used
+// reading a file
+fs.readFile(path.join(__dirname, "files", "start.txt"), "utf8", (err, data) => {
+  if (err) throw err;
+  console.log(data);
+});
 
-const math = require("./math"); // or import math from 'math'
-console.log(math.add(2, 5));
+// writing a file
+fs.writeFile(
+  path.join(__dirname, "files", "end.txt"),
+  "End the program",
+  (err) => {
+    if (err) throw err;
+    console.log("Write complete");
+  }
+);
+
+// update a file
+fs.appendFile(
+  path.join(__dirname, "files", "end.txt"),
+  "End the program, See u next time",
+  (err) => {
+    if (err) throw err;
+    console.log("append complete");
+  }
+);
+
+// The best practice is appending inside the write file
+// Buy this also called callback hell
+// writing a file
+fs.writeFile(
+  path.join(__dirname, "files", "end.txt"),
+  "End the program",
+  (err) => {
+    if (err) throw err;
+    console.log("Write complete");
+    // adding the appendFile as callback to the writeFile
+    fs.appendFile(
+      path.join(__dirname, "files", "end.txt"),
+      "End the program, See u next time",
+      (err) => {
+        if (err) throw err;
+        console.log("append complete");
+      }
+    );
+  }
+);
+
+// Note: we can also create file using appendFile
+
+// exit on uncaught exception
+process.on("uncaughtException", (err) => {
+  console.error(`There was an uncaught error: ${err}`);
+  process.exit(1);
+});
