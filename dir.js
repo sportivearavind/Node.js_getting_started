@@ -1,8 +1,8 @@
 const fs = require('fs');
 
-// if there is no new directory already, the create the new directory
-if(!fs.existsSync('./new')){
-    fs.mkdir("./new", (err) => {
+// if the file exist, then it will remove the directory or file
+if(fs.existsSync('./new')){
+    fs.rmdir("./new", (err) => {
       if (err) throw err;
       console.log("Directory Created");
     });
